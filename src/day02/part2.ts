@@ -1,6 +1,6 @@
 import { readInput } from '../utils/readInput';
 
-export function part1(): number {
+export function part2(): number {
   const input = readInput('day02');
   const ranges = input.split(',').map(String);
   let sum = 0;
@@ -29,4 +29,4 @@ export function part1(): number {
   return sum;
 }
 
-part1();
+part2();
