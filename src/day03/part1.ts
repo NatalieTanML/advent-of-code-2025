@@ -6,18 +6,26 @@ export function part1(): number {
   let totalJoltage = 0;
 
   for (const bank of banks) {
-    const batteries = bank.split('').toSorted().reverse();
-    const first = batteries[0];
-    const second = batteries[1];
-    if (first === second) {
-      totalJoltage += parseInt(first + second);
-    } else {
-      const firstIndex = bank.indexOf(first);
-      const secondIndex = bank.indexOf(second);
-      if (firstIndex < secondIndex) {
-        totalJoltage += parseInt(first + second);
-      } else {
-        totalJoltage += parseInt(second + first);
+    const batteries = bank.split('').map(Number);
+    let found = false;
+
+    while (!found) {
+      for (let first = 9; first > 0; first--) {
+        const firstIndex = batteries.indexOf(first);
+        if (firstIndex < 0) {
+          continue;
+        }
+
+        for (let second = 9; second > 0; second--) {
+          const secondIndex = batteries.indexOf(second, firstIndex + 1);
+          if (secondIndex < 0) {
+            continue;
+          }
+          totalJoltage += first * 10 + second;
+          found = true;
+          break;
+        }
+        if (found) break;
       }
     }
   }
