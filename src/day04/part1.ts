@@ -5,23 +5,28 @@ export function part1(): number {
   const matrix = input.split('\n').map((row) => row.split(''));
   let canAccess = 0;
 
+  // prettier-ignore
+  const dirs = [
+    [-1, -1], [0, -1], [1, -1],
+    [-1, 0],          [1, 0],
+    [-1, 1], [0, 1], [1, 1],
+  ];
+
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix[i].length; j++) {
       const curr = matrix[i][j];
-
-      if (curr === '@') {
-        // check the surrounding 8 positions
-        let count = 0;
-        for (let k = i - 1; k <= i + 1; k++) {
-          for (let l = j - 1; l <= j + 1; l++) {
-            if (k === i && l === j) continue;
-            let check = matrix[k]?.[l] ?? '.';
-            count += check === '@' ? 1 : 0;
-          }
-        }
-
-        if (count < 4) canAccess++;
+      if (curr !== '@') {
+        continue;
       }
+
+      // check the surrounding 8 positions
+      let count = 0;
+      for (const [di, dj] of dirs) {
+        let check = matrix[i + di]?.[j + dj];
+        count += check === '@' ? 1 : 0;
+      }
+
+      if (count < 4) canAccess++;
     }
   }
 
